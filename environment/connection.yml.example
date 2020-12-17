@@ -1,0 +1,12 @@
+app:
+  name: {{nama_aplikasi}}
+  debug: true
+  port: "8080"
+  host: "localhost"
+  service: "http"
+  context:
+    timeout: 2
+databases:
+  mongodb:
+    name: {{nama_database}}
+    connection: "mongodb+srv://<username>:<password>@<cluster_name>.jl8rn.gcp.mongodb.net/<dbname>?retryWrites=true&w=majority"
