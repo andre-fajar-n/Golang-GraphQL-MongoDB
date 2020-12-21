@@ -11,6 +11,11 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type UserResponseToken struct {
+	model.User
+	Token string `json:"token"`
+}
+
 func Register(params graphql.ResolveParams) (interface{}, error) {
 	username := params.Args["username"].(string)
 
@@ -21,7 +26,7 @@ func Register(params graphql.ResolveParams) (interface{}, error) {
 	}
 
 	password := params.Args["password"].(string)
-	password, err := GeneratePassword(password)
+	password, err := generatePassword(password)
 	if err != nil {
 		return nil, err
 	}
@@ -38,4 +43,29 @@ func Register(params graphql.ResolveParams) (interface{}, error) {
 	}
 
 	return data, nil
+}
+
+func Login(params graphql.ResolveParams) (interface{}, error) {
+	username := params.Args["username"].(string)
+
+	// check if username has been registered
+	userData := repo.GetUserByUsername(context.Background(), username)
+	if userData.Username == "" {
+		return nil, fmt.Errorf("username has not been registered")
+	}
+
+	password := params.Args["password"].(string)
+	if err := comparePassword(password, userData.Password); err != nil {
+		return nil, fmt.Errorf("invalid password")
+	}
+
+	token, err := createToken(userData.Username)
+	if err != nil {
+		return nil, err
+	}
+
+	return map[string]string{
+		"username": userData.Username,
+		"token":    token,
+	}, nil
 }

@@ -17,6 +17,23 @@ var User = graphql.NewObject(
 			"password": &graphql.Field{
 				Type: graphql.String,
 			},
+			"token": &graphql.Field{
+				Type: graphql.String,
+			},
+		},
+	},
+)
+
+var UserToken = graphql.NewObject(
+	graphql.ObjectConfig{
+		Name: "User Token",
+		Fields: graphql.Fields{
+			"username": &graphql.Field{
+				Type: graphql.String,
+			},
+			"token": &graphql.Field{
+				Type: graphql.String,
+			},
 		},
 	},
 )
