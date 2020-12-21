@@ -2,7 +2,6 @@ package types
 
 import (
 	"errors"
-	"fmt"
 	"log"
 
 	"github.com/graphql-go/graphql"
@@ -23,7 +22,6 @@ var ID = graphql.NewScalar(graphql.ScalarConfig{
 	Name:        "ID",
 	Description: "The `id` scalar type represents a ID Object.",
 	Serialize: func(value interface{}) interface{} {
-		fmt.Println("SERIALIZE", value)
 		return value
 	},
 	ParseValue: func(value interface{}) interface{} {
@@ -37,7 +35,6 @@ var ID = graphql.NewScalar(graphql.ScalarConfig{
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println("PARSE VALUE", value)
 		return value
 	},
 	ParseLiteral: func(valueAst ast.Value) interface{} {
@@ -46,7 +43,6 @@ var ID = graphql.NewScalar(graphql.ScalarConfig{
 			if err != nil {
 				log.Fatal(err)
 			}
-			fmt.Println("PARSE LITERAL", valueAst)
 			return valueAst
 		} else {
 			log.Fatal("Must be of type string.")
