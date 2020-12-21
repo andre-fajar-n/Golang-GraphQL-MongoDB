@@ -1,8 +1,9 @@
-package app
+package api
 
 import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/graphql-go/graphql"
 	"github.com/graphql-go/handler"
 )
 
@@ -17,3 +18,11 @@ func RegisterRoutes(r *chi.Mux) *chi.Mux {
 	r.Handle("/query", graphQL)
 	return r
 }
+
+// schema
+var Schema, _ = graphql.NewSchema(
+	graphql.SchemaConfig{
+		Query:    queryType,
+		Mutation: mutationType,
+	},
+)

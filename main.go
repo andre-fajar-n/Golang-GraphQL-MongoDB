@@ -5,14 +5,14 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/andre-fajar-n/Golang-GraphQL-MongoDB/app"
+	"github.com/andre-fajar-n/Golang-GraphQL-MongoDB/api"
 	"github.com/andre-fajar-n/Golang-GraphQL-MongoDB/infrastructure"
 	"github.com/go-chi/chi"
 )
 
 func main() {
 	routes := chi.NewRouter()
-	r := app.RegisterRoutes(routes)
+	r := api.RegisterRoutes(routes)
 	log.Println("Server ready at 8080")
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
