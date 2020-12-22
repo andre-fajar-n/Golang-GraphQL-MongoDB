@@ -11,4 +11,5 @@ type User struct {
 	Username  string
 	Password  string
 	CreatedAt time.Time
+	Token     string
 }

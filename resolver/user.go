@@ -64,8 +64,11 @@ func Login(params graphql.ResolveParams) (interface{}, error) {
 		return nil, err
 	}
 
-	return map[string]string{
-		"username": userData.Username,
-		"token":    token,
+	return model.User{
+		ID:        userData.ID,
+		Username:  userData.Username,
+		Password:  userData.Password,
+		CreatedAt: userData.CreatedAt,
+		Token:     token,
 	}, nil
 }

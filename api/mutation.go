@@ -23,7 +23,7 @@ var mutationType = graphql.NewObject(graphql.ObjectConfig{
 			Resolve: resolver.Register,
 		},
 		"login": &graphql.Field{
-			Type:        types.UserToken,
+			Type:        types.User,
 			Description: "User Login",
 			Args: graphql.FieldConfigArgument{
 				"username": &graphql.ArgumentConfig{
