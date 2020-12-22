@@ -43,3 +43,18 @@ func AddTodo(params graphql.ResolveParams) (interface{}, error) {
 
 	return data, nil
 }
+
+func ViewOneTodoByID(params graphql.ResolveParams) (interface{}, error) {
+	// check token
+	token := params.Context.Value("token").(string)
+	verifToken, err := VerifyToken(token)
+	if err != nil {
+		return nil, err
+	}
+
+	id := params.Args["id"].(string)
+	username := fmt.Sprintf("%v", verifToken["username"])
+	data := repo.ViewOneTodoByID(context.Background(), id, username)
+
+	return data, nil
+}
