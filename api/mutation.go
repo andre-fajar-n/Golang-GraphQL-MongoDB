@@ -35,5 +35,18 @@ var mutationType = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: resolver.Login,
 		},
+		"addTodo": &graphql.Field{
+			Type:        types.Todo,
+			Description: "Add Todo",
+			Args: graphql.FieldConfigArgument{
+				"task": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+				"deadline": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.String),
+				},
+			},
+			Resolve: resolver.AddTodo,
+		},
 	},
 })
