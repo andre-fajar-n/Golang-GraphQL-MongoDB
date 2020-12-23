@@ -20,5 +20,18 @@ var queryType = graphql.NewObject(
 				},
 				Resolve: resolver.ViewOneTodoByID,
 			},
+			"viewListTodoMe": &graphql.Field{
+				Type:        types.ViewListTodoMe,
+				Description: "View List Todo Me",
+				Args: graphql.FieldConfigArgument{
+					"page": &graphql.ArgumentConfig{
+						Type: graphql.Int,
+					},
+					"per_page": &graphql.ArgumentConfig{
+						Type: graphql.Int,
+					},
+				},
+				Resolve: resolver.ViewListTodoMe,
+			},
 		},
 	})

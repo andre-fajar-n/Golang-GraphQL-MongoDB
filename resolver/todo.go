@@ -7,6 +7,7 @@ import (
 
 	"github.com/andre-fajar-n/Golang-GraphQL-MongoDB/model"
 	"github.com/andre-fajar-n/Golang-GraphQL-MongoDB/repo"
+	"github.com/andre-fajar-n/Golang-GraphQL-MongoDB/resolver/todo"
 	"github.com/graphql-go/graphql"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -57,4 +58,34 @@ func ViewOneTodoByID(params graphql.ResolveParams) (interface{}, error) {
 	data := repo.ViewOneTodoByID(context.Background(), id, username)
 
 	return data, nil
+}
+
+func ViewListTodoMe(params graphql.ResolveParams) (interface{}, error) {
+	// check token
+	token := params.Context.Value("token").(string)
+	verifToken, err := VerifyToken(token)
+	if err != nil {
+		return nil, err
+	}
+	username := fmt.Sprintf("%v", verifToken["username"])
+
+	page, ok := params.Args["page"].(int)
+	if !ok {
+		page = 1
+	}
+	perPage, ok := params.Args["per_page"].(int)
+	if !ok {
+		perPage = 10
+	}
+
+	form := repo.PaginationRequest{
+		Limit:  perPage,
+		Offset: (page - 1) * perPage,
+	}
+	data := repo.ViewListTodoMe(context.Background(), username, form)
+
+	return todo.ResponsePagination{
+		Username: username,
+		Data:     data,
+	}, nil
 }
