@@ -55,7 +55,15 @@ func ViewOneTodoByID(params graphql.ResolveParams) (interface{}, error) {
 
 	id := params.Args["id"].(string)
 	username := fmt.Sprintf("%v", verifToken["username"])
-	data := repo.ViewOneTodoByID(context.Background(), id, username)
+	data, err := repo.ViewOneTodoByID(context.Background(), id)
+	if err != nil {
+		return nil, err
+	}
+
+	// check jwt username is match or not with data
+	if username != data.Username {
+		return nil, fmt.Errorf("Unauthorized")
+	}
 
 	return data, nil
 }

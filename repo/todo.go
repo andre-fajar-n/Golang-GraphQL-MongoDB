@@ -2,6 +2,7 @@ package repo
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/andre-fajar-n/Golang-GraphQL-MongoDB/infrastructure"
@@ -21,37 +22,32 @@ func AddTodo(ctx context.Context, data *model.Todo) error {
 	return err
 }
 
-func ViewOneTodoByID(ctx context.Context, id, username string) model.Todo {
+func ViewOneTodoByID(ctx context.Context, id string) (model.Todo, error) {
 	var todo model.Todo
 
 	objectId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		log.Println("Invalid id")
+		return todo, fmt.Errorf("Invalid ID")
 	}
 
-	filter := bson.M{
-		"_id":      objectId,
-		"username": username,
-	}
-
+	filter := bson.M{"_id": objectId}
 	data := infrastructure.Mongodb.Collection("todo").FindOne(ctx, filter)
 	data.Decode(&todo)
 
-	return todo
+	return todo, nil
 }
 
 func ViewListTodoMe(ctx context.Context, username string, form PaginationRequest) []model.Todo {
 	var todo model.Todo
 	var todos []model.Todo
 
-	collection := infrastructure.Mongodb.Collection("todo")
 	option := options.Find().
 		SetLimit(int64(form.Limit)).
 		SetSkip(int64(form.Offset))
 	filter := bson.M{
 		"username": username,
 	}
-	data, err := collection.Find(ctx, filter, option)
+	data, err := infrastructure.Mongodb.Collection("todo").Find(ctx, filter, option)
 	defer data.Close(ctx)
 	if err != nil {
 		log.Println(err)

@@ -6,5 +6,5 @@ import (
 
 type ResponsePagination struct {
 	Username string
-	Data     []model.Todo `json:"data"`
+	Data     []model.Todo
 }
