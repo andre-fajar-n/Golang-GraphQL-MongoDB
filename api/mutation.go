@@ -48,5 +48,18 @@ var mutationType = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: resolver.AddTodo,
 		},
+		"checkListTodo": &graphql.Field{
+			Type:        types.Todo,
+			Description: "Checklist Todo",
+			Args: graphql.FieldConfigArgument{
+				"id": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.String),
+				},
+				"is_done": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.Boolean),
+				},
+			},
+			Resolve: resolver.ChecklistTodo,
+		},
 	},
 })

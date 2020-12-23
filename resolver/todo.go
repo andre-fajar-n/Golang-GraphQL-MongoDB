@@ -97,3 +97,30 @@ func ViewListTodoMe(params graphql.ResolveParams) (interface{}, error) {
 		Data:     data,
 	}, nil
 }
+
+func ChecklistTodo(params graphql.ResolveParams) (interface{}, error) {
+	// check token
+	token := params.Context.Value("token").(string)
+	verifToken, err := VerifyToken(token)
+	if err != nil {
+		return nil, err
+	}
+	username := fmt.Sprintf("%v", verifToken["username"])
+
+	id := params.Args["id"].(string)
+	data, err := repo.ViewOneTodoByID(context.Background(), id)
+	if err != nil {
+		return nil, err
+	}
+
+	// check jwt username is match or not with data
+	if username != data.Username {
+		return nil, fmt.Errorf("Unauthorized")
+	}
+
+	isDone := params.Args["is_done"].(bool)
+	data.IsDone = isDone
+
+	_ = repo.ChecklistTodo(context.Background(), id, data)
+	return data, nil
+}

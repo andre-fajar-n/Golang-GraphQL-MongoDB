@@ -61,3 +61,22 @@ func ViewListTodoMe(ctx context.Context, username string, form PaginationRequest
 
 	return todos
 }
+
+func ChecklistTodo(ctx context.Context, id string, data model.Todo) error {
+	objectId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return fmt.Errorf("Invalid ID")
+	}
+
+	filter := bson.M{"_id": objectId}
+	update := bson.M{
+		"$set": data,
+	}
+	upsertBool := true
+	updateOption := options.UpdateOptions{
+		Upsert: &upsertBool,
+	}
+
+	_, err = infrastructure.Mongodb.Collection("todo").UpdateOne(ctx, filter, update, &updateOption)
+	return err
+}
