@@ -13,8 +13,8 @@ import (
 func main() {
 	routes := chi.NewRouter()
 	r := api.RegisterRoutes(routes)
-	log.Println("Server ready at 8080")
-	log.Fatal(http.ListenAndServe(":8080", r))
+	log.Println("Server ready at 7000")
+	log.Fatal(http.ListenAndServe(":7000", r))
 }
 
 func init() {

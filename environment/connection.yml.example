@@ -1,7 +1,7 @@
 app:
   name: {{nama_aplikasi}}
   debug: true
-  port: "8080"
+  port: "7000"
   host: "localhost"
   service: "http"
   context:
