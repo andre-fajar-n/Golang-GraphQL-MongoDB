@@ -120,6 +120,7 @@ func ChecklistTodo(params graphql.ResolveParams) (interface{}, error) {
 
 	isDone := params.Args["is_done"].(bool)
 	data.IsDone = isDone
+	data.UpdatedAt = time.Now()
 
 	_ = repo.ChecklistTodo(context.Background(), id, data)
 	return data, nil
