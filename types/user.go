@@ -23,3 +23,20 @@ var User = graphql.NewObject(
 		},
 	},
 )
+
+var UserLogin = graphql.NewObject(
+	graphql.ObjectConfig{
+		Name: "UserLogin",
+		Fields: graphql.Fields{
+			"id": &graphql.Field{
+				Type: ID,
+			},
+			"username": &graphql.Field{
+				Type: graphql.String,
+			},
+			"token": &graphql.Field{
+				Type: graphql.String,
+			},
+		},
+	},
+)
