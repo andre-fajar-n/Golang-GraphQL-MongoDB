@@ -7,6 +7,7 @@ import (
 
 	"github.com/andre-fajar-n/Golang-GraphQL-MongoDB/model"
 	"github.com/andre-fajar-n/Golang-GraphQL-MongoDB/repo"
+	"github.com/andre-fajar-n/Golang-GraphQL-MongoDB/resolver/user"
 	"github.com/graphql-go/graphql"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -59,10 +60,9 @@ func Login(params graphql.ResolveParams) (interface{}, error) {
 		return nil, err
 	}
 
-	return model.User{
+	return user.ResponseLogin{
 		ID:        userData.ID,
 		Username:  userData.Username,
-		Password:  userData.Password,
 		CreatedAt: userData.CreatedAt,
 		Token:     token,
 	}, nil
