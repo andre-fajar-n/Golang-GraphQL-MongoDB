@@ -12,11 +12,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-type UserResponseToken struct {
-	model.User
-	Token string `json:"token"`
-}
-
 func Register(params graphql.ResolveParams) (interface{}, error) {
 	username := params.Args["username"].(string)
 

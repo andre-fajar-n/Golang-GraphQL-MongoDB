@@ -8,8 +8,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-// var collection = infrastructure.Mongodb.Collection("user")
-
 func Register(ctx context.Context, data *model.User) error {
 	_, err := infrastructure.Mongodb.Collection("user").InsertOne(ctx, data)
 	return err

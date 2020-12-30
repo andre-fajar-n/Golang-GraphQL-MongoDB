@@ -1,6 +1,7 @@
 package resolver
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -25,4 +26,29 @@ func createToken(user string) (string, error) {
 		return "", err
 	}
 	return s, nil
+}
+
+func VerifyToken(tokenString string) (jwt.MapClaims, error) {
+	// when authorization is nil
+	if tokenString == "" {
+		return nil, fmt.Errorf("Missing Authorization Header")
+	}
+
+	// decode token
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return false, fmt.Errorf("There was an error")
+		}
+		return []byte(secret), nil
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	// when token is invalid
+	if !token.Valid {
+		return nil, fmt.Errorf("Token invalid.")
+	}
+
+	return token.Claims.(jwt.MapClaims), nil
 }
