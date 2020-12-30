@@ -32,3 +32,17 @@ var Todo = graphql.NewObject(
 		},
 	},
 )
+
+var ViewListTodoMe = graphql.NewObject(
+	graphql.ObjectConfig{
+		Name: "ViewListTodoMe",
+		Fields: graphql.Fields{
+			"username": &graphql.Field{
+				Type: graphql.String,
+			},
+			"data": &graphql.Field{
+				Type: graphql.NewList(Todo),
+			},
+		},
+	},
+)
