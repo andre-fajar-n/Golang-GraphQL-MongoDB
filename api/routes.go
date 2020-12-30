@@ -13,6 +13,7 @@ func RegisterRoutes(r *chi.Mux) *chi.Mux {
 		Schema:   &Schema,
 		Pretty:   true,
 		GraphiQL: true,
+		// Playground: true,
 	})
 	r.Use(middleware.Logger)
 	r.Handle("/query", graphQL)
