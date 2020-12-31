@@ -90,6 +90,10 @@ func ViewListTodoMe(params graphql.ResolveParams) (interface{}, error) {
 		Limit:  perPage,
 		Offset: (page - 1) * perPage,
 	}
+	isDone, ok := params.Args["is_done"].(bool)
+	if ok {
+		form.IsDone = isDone
+	}
 	data := repo.ViewListTodoMe(context.Background(), username, form)
 
 	return todo.ResponsePagination{

@@ -15,6 +15,7 @@ import (
 type PaginationRequest struct {
 	Limit  int
 	Offset int
+	IsDone bool
 }
 
 func AddTodo(ctx context.Context, data *model.Todo) error {
@@ -46,6 +47,7 @@ func ViewListTodoMe(ctx context.Context, username string, form PaginationRequest
 		SetSkip(int64(form.Offset))
 	filter := bson.M{
 		"username": username,
+		"is_done":  form.IsDone,
 	}
 	data, err := infrastructure.Mongodb.Collection("todo").Find(ctx, filter, option)
 	defer data.Close(ctx)
