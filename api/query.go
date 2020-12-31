@@ -30,6 +30,9 @@ var queryType = graphql.NewObject(
 					"per_page": &graphql.ArgumentConfig{
 						Type: graphql.Int,
 					},
+					"is_done": &graphql.ArgumentConfig{
+						Type: graphql.Boolean,
+					},
 				},
 				Resolve: resolver.ViewListTodoMe,
 			},
